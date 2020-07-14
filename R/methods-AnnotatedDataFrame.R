@@ -90,7 +90,7 @@ annotatedDataFrameFromMatrix <- function(object, byrow=FALSE, ...) {
 }
 
 setMethod("annotatedDataFrameFrom",
-          signature(object="matrix"),
+          signature(object="dgCMatrix"),
           annotatedDataFrameFromMatrix)
 
 annotatedDataFrameFromNull <- function(object, byrow=FALSE, ...) {
@@ -108,10 +108,12 @@ annotatedDataFrameFromAssayData <- function(object, byrow=FALSE, ...) {
     eltNames <-
         if (is(object, "environment")) ls(object)
         else names(object)
-    if (length(eltNames)==0)
-        annotatedDataFrameFrom(NULL, byrow=byrow, ...)
-    else
-        annotatedDataFrameFrom(object[[eltNames[1]]], byrow=byrow, ...)
+    if (length(eltNames)==0){
+      annotatedDataFrameFrom(NULL, byrow=byrow, ...)      
+    }else{
+      print(object[[eltNames[1]]])
+      annotatedDataFrameFrom(object[[eltNames[1]]], byrow=byrow, ...)
+    }
 }
 
 setMethod("annotatedDataFrameFrom",

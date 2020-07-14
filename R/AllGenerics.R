@@ -107,3 +107,4 @@ setGeneric("ExpressionSet",
                     ...)
            standardGeneric("ExpressionSet"),
            signature="assayData")
+

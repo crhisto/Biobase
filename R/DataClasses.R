@@ -195,8 +195,8 @@ setClassUnion("AssayData", c("list", "environment"))
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setClass("exprSet",
    representation(
-      exprs       = "matrix",
-      se.exprs    = "matrix",
+      exprs       = "dgCMatrix",
+      se.exprs    = "dgCMatrix",
       description = "characterORMIAME",
       annotation  = "character",
       notes       = "character"

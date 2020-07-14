@@ -1,7 +1,8 @@
 setMethod("initialize", "ExpressionSet",
     function(.Object, assayData, phenoData, featureData,
-             exprs=new("matrix"), ... )
+             exprs=new("dgCMatrix"), ... )
 {
+      print('initialize...')
     if (missing(assayData)) {
         if (missing(phenoData))
             phenoData <- annotatedDataFrameFrom(exprs, byrow=FALSE)
@@ -85,6 +86,9 @@ setAs("exprSet", "ExpressionSet", function(from) {
 setValidity("ExpressionSet", function(object) {
     msg <- validMsg(NULL, isValidVersion(object, "ExpressionSet"))
     msg <- validMsg(msg, assayDataValidMembers(assayData(object), c("exprs")))
+    
+    print('my modification!!!')
+    
     if(class(experimentData(object)) != "MIAME")
         msg <- validMsg(msg, 
                "experimentData slot in ExpressionSet must be 'MIAME' object")
@@ -100,7 +104,7 @@ as.data.frame.ExpressionSet <- function(x, row.names=NULL, optional=FALSE, ...)
 setMethod("exprs", signature(object="ExpressionSet"),
           function(object) assayDataElement(object,"exprs"))
 
-setReplaceMethod("exprs", signature(object="ExpressionSet",value="matrix"),
+setReplaceMethod("exprs", signature(object="ExpressionSet",value="dgCMatrix"),
                  function(object, value) assayDataElementReplace(object, "exprs", value))
 
 
@@ -180,7 +184,7 @@ readExpressionSet <- function(exprsFile,
     if (missing(exprsFile))
         stop("exprs can not be missing!")
     exprsArgs$file=exprsFile
-    ex = as.matrix(do.call(read.table, exprsArgs))
+    ex = Matrix(do.call(read.table, exprsArgs), sparse = TRUE)
 
     ## phenoData
     if (!missing(phenoDataFile)) {
@@ -225,7 +229,7 @@ setMethod(ExpressionSet, "missing",
              ...)
 {
     .ExpressionSet(
-        assayData=assayDataNew(exprs=new("matrix")),
+        assayData=assayDataNew(exprs=new("dgCMatrix")),
         phenoData=phenoData,
         featureData=featureData, experimentData=experimentData,
         annotation=annotation, protocolData=protocolData, ...)
@@ -245,7 +249,7 @@ setMethod(ExpressionSet, "environment",
 })
 
 
-setMethod(ExpressionSet, "matrix",
+setMethod(ExpressionSet, "dgCMatrix",
     function(assayData,
              phenoData=annotatedDataFrameFrom(assayData, byrow=FALSE),
              featureData=annotatedDataFrameFrom(assayData, byrow=TRUE),

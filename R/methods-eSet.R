@@ -235,8 +235,9 @@ setValidity("eSet", function(object) {
         ## phenoData
         if (dims[2,1] != dim(phenoData(object))[[1]])
           msg <- validMsg(msg, "sample numbers differ between assayData and phenoData")
-        if (!identical(sampleNames(assayData(object)), sampleNames(phenoData(object))))
+        if (!identical(sampleNames(assayData(object)), sampleNames(phenoData(object)))){
           msg <- validMsg(msg, "sampleNames differ between assayData and phenoData")
+        }
         ## protocolData
         if (dim(phenoData(object))[[1]] != dim(protocolData(object))[[1]])
           msg <- validMsg(msg, "sample numbers differ between phenoData and protocolData")
