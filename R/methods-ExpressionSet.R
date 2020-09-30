@@ -2,7 +2,7 @@ setMethod("initialize", "ExpressionSet",
     function(.Object, assayData, phenoData, featureData,
              exprs=new("dgCMatrix"), ... )
 {
-      print('initialize...')
+      print('ExpressionSet supporting sparse Matrix (dgCMatrix)')
     if (missing(assayData)) {
         if (missing(phenoData))
             phenoData <- annotatedDataFrameFrom(exprs, byrow=FALSE)
@@ -87,7 +87,7 @@ setValidity("ExpressionSet", function(object) {
     msg <- validMsg(NULL, isValidVersion(object, "ExpressionSet"))
     msg <- validMsg(msg, assayDataValidMembers(assayData(object), c("exprs")))
     
-    print('my modification!!!')
+    print('ExpressionSet/exprs function supporting sparse Matrix (dgCMatrix)')
     
     if(class(experimentData(object)) != "MIAME")
         msg <- validMsg(msg, 
